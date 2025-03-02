@@ -1,22 +1,21 @@
-sudo: required
+language: generic  # Use a generic environment for Docker support
 services:
   - docker
 
-before_install: 
+before_install:
   - docker build -t gevorg1187/docker-react -f Dockerfile.dev .
 
-script: 
+script:
   - docker run -e CI=true gevorg1187/docker-react npm run test
 
 deploy:
   provider: elasticbeanstalk
-  region: "eu-central-1"
-  app: "frontend"
-  env: "Frontend-env"
-  platform: "Ruby 3.3 running on 64bit Amazon Linux 2/3.5.0"
-  bucket_name: "elasticbeanstalk-eu-central-1-686255940580"
-  bucket_path: "frontend"
+  region: eu-central-1
+  app: frontend
+  env: Frontend-env
+  bucket_name: elasticbeanstalk-eu-central-1-686255940580
+  bucket_path: frontend
   on:
     branch: master
-  access_key_id: "$AWS_ACCESS_KEY"
-  secret_access_key: "$AWS_SECRET_KEY"
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
