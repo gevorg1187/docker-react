@@ -13,6 +13,7 @@ deploy:
   region: "eu-central-1"
   app: "frontend"
   env: "Frontend-env"
+  platform: "Ruby 3.3 running on 64bit Amazon Linux 2/3.5.0"
   bucket_name: "elasticbeanstalk-eu-central-1-686255940580"
   bucket_path: "frontend"
   on:
