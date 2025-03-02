@@ -5,7 +5,7 @@ services:
 before_install:
   # Uninstall precompiled Nokogiri and install it using Ruby platform to avoid GLIBC error
   - gem uninstall nokogiri --all --executables || true
-  - gem install nokogiri --platform=ruby --use-system-libraries
+  - gem install nokogiri --platform=ruby  # Removed --use-system-libraries
   - bundle config set force_ruby_platform true  # Force Nokogiri to build on Ruby platform if using Bundler
 
   # Build Docker image for testing
