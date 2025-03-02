@@ -3,9 +3,16 @@ services:
   - docker
 
 before_install:
+  # Uninstall precompiled Nokogiri and install it using Ruby platform to avoid GLIBC error
+  - gem uninstall nokogiri --all --executables || true
+  - gem install nokogiri --platform=ruby --use-system-libraries
+  - bundle config set force_ruby_platform true  # Force Nokogiri to build on Ruby platform if using Bundler
+
+  # Build Docker image for testing
   - docker build -t gevorg1187/docker-react -f Dockerfile.dev .
 
 script:
+  # Run tests inside Docker container
   - docker run -e CI=true gevorg1187/docker-react npm run test
 
 deploy:
@@ -15,8 +22,10 @@ deploy:
   env: Frontend-env
   bucket_name: elasticbeanstalk-eu-central-1-686255940580
   bucket_path: frontend
+  zip_file: frontend.zip  # Deploy the created zip file
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+
 
